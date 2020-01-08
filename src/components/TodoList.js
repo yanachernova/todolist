@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 const form = {
     width: "70%",
 }
@@ -9,7 +8,6 @@ const parag = {
     marginBottom: "0",
     marginLeft: "10px"
 }
-
 class TodoList extends Component {
     constructor() {
         super();
@@ -18,7 +16,6 @@ class TodoList extends Component {
             tasks: []
         }
     }
-
     addTask(e) {
         if (e.keyCode == 13 && e.target.value !== '') {
             this.setState({
@@ -27,8 +24,7 @@ class TodoList extends Component {
             e.target.value = '';
         }
     }
-
-    delTask(i){
+    delTask(i) {
         const tasks = this.state.tasks;
         tasks.splice(i, 1);
         this.setState({
@@ -36,30 +32,42 @@ class TodoList extends Component {
         })
     }
 
+    delButton(i){
+        const tasks = this.state.tasks;
+        tasks.splice(i);
+        this.setState({
+            tasks: tasks
+    })
+    
+}
     render() {
         return (
-            <div className="card m-auto" style={form}>
-                <input id="addToDo" type="text" placeholder="Add to do here"
-                    onKeyDown={(e) => this.addTask(e)} />
+            <div className="card m-auto paper" style={form}>
+                <div class="input-group">
+                    <input id="addToDo" type="text" className="form-control" placeholder="What needs to be done?"
+                        onKeyDown={(e) => this.addTask(e)} />
+                    <div className="input-group-append" id="button-addon4">
+                        <button className="btn btn-outline-secondary" onClick={(i) => this.delButton(i)} type="button">Delete</button>
+                    </div>
+                </div>
                 {
                     this.state.tasks.length > 0 ? (
                         <ul id="list">
                             {
                                 this.state.tasks.map((task, i) => {
-                                   return ( 
-                                    <li>
-                                        {task}
-                                        <span><i className="fa fa-times float-right" onClick={() => this.delTask(i)}></i></span>
-                                    </li>
-                                   )
+                                    return (
+                                        <li>
+                                            {task}
+                                            <span><i className="fa fa-times float-right" onClick={() => this.delTask(i)}></i></span>
+                                        </li>
+                                    )
                                 })
                             }
                         </ul>
                     ) : (
-                        <p style={parag}>You don't have tasks</p>
-                    )
+                            <p style={parag}>No task, add a tasks</p>
+                        )
                 }
-
                 <p id="parag" style={parag}></p>
             </div>
         )
